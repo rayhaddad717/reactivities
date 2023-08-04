@@ -1,5 +1,7 @@
 using Persistence;
 using Microsoft.EntityFrameworkCore;
+using Application.Activities;
+using MediatR;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -21,8 +23,8 @@ builder.Services.AddCors(opt =>
     }
     );
 }
-)
-;
+);
+builder.Services.AddMediatR(typeof(List.Handler));
 
 var app = builder.Build();
 

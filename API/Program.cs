@@ -2,6 +2,7 @@ using Persistence;
 using Microsoft.EntityFrameworkCore;
 using Application.Activities;
 using MediatR;
+using Application.Core;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -25,7 +26,7 @@ builder.Services.AddCors(opt =>
 }
 );
 builder.Services.AddMediatR(typeof(List.Handler));
-
+builder.Services.AddAutoMapper(typeof(MappingProfiles).Assembly);
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.

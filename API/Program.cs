@@ -6,6 +6,7 @@ using Domain;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc.Authorization;
 using API.Middleware;
+using API.SignalR;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -39,6 +40,7 @@ app.UseAuthentication(); //authentication must come before authorization
 app.UseAuthorization();
 
 app.MapControllers();
+app.MapHub<ChatHub>("/chat"); // /chat is the route for signalR
 
 //using the using keyword means that when we are done with this scope everything inside it
 //will be disposed and cleared from memory

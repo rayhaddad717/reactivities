@@ -14,6 +14,7 @@ interface Props {
   closeForm: () => void;
   createOrEdit: (activity: Activity) => void;
   deleteActivity: (id: string) => void;
+  submitting: boolean;
 }
 function ActivityDashboard({
   activities,
@@ -25,6 +26,7 @@ function ActivityDashboard({
   openForm,
   createOrEdit,
   deleteActivity,
+  submitting,
 }: Props) {
   return (
     <Grid>
@@ -33,6 +35,7 @@ function ActivityDashboard({
           activities={activities}
           selectActivity={selectActivity}
           deleteActivity={deleteActivity}
+          submitting={submitting}
         />
       </Grid.Column>
       <Grid.Column width="6">
@@ -48,6 +51,7 @@ function ActivityDashboard({
             createOrEdit={createOrEdit}
             closeForm={closeForm}
             activity={selectedActivity}
+            submitting={submitting}
           />
         )}
       </Grid.Column>

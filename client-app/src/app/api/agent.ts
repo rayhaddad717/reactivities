@@ -1,0 +1,48 @@
+import axios, { AxiosResponse } from "axios";
+import { Activity } from "../models/activity";
+
+const sleep = (delay: number) => {
+  return new Promise((resolve) => {
+    setTimeout(resolve, delay);
+  });
+};
+const bobToken =
+  "eyJhbGciOiJIUzUxMiIsInR5cCI6IkpXVCJ9.eyJ1bmlxdWVfbmFtZSI6ImJvYiIsIm5hbWVpZCI6ImJiMDEyNmEwLTk3ZjAtNGU5MC04ZjRlLWUyN2EzOTNkNzYzYiIsImVtYWlsIjoiYm9iQHRlc3QuY29tIiwibmJmIjoxNjkyMDg3MDE3LCJleHAiOjE2OTI2OTE4MTcsImlhdCI6MTY5MjA4NzAxN30.TP1KImNxyBXNwy0upwJ4sHRlAFG2zZUq45nxMMQyVsYTC68uMXBSf0lm_qFS95YlpDxnoy5QTJlJESKHHXdxRQ";
+const tomToken =
+  "eyJhbGciOiJIUzUxMiIsInR5cCI6IkpXVCJ9.eyJ1bmlxdWVfbmFtZSI6ImJvYiIsIm5hbWVpZCI6ImJiMDEyNmEwLTk3ZjAtNGU5MC04ZjRlLWUyN2EzOTNkNzYzYiIsImVtYWlsIjoiYm9iQHRlc3QuY29tIiwibmJmIjoxNjkyMDg3Mjg3LCJleHAiOjE2OTI2OTIwODcsImlhdCI6MTY5MjA4NzI4N30.aac3ISM0p6eNoAR8BZQ0R8ojBt80gGdGAnI0Vbf3T7awV4BsTT7ZePXK1dCQwnMxvVLbkMyJAosoClGpMn7Qrg";
+
+axios.defaults.baseURL = "http://localhost:5000/api";
+axios.defaults.headers.common["Authorization"] = `Bearer ${tomToken}`;
+axios.interceptors.response.use(async (response) => {
+  try {
+    await sleep(1000);
+    return response;
+  } catch (error) {
+    console.error(error);
+    return await Promise.reject(error);
+  }
+});
+const responseBody = <T>(response: AxiosResponse<T>) => response.data;
+
+const request = {
+  get: <T>(url: string) => axios.get<T>(url).then(responseBody),
+  post: <T>(url: string, body: {}) =>
+    axios.post<T>(url, body).then(responseBody),
+  put: <T>(url: string, body: {}) => axios.put<T>(url, body).then(responseBody),
+  del: <T>(url: string) => axios.delete<T>(url).then(responseBody),
+};
+
+const Activities = {
+  list: () => request.get<Activity[]>("/activities"),
+  details: (id: string) => request.get<Activity>(`/activities/${id}`),
+  create: (activity: Activity) => request.post<void>("/activities", activity),
+  update: (activity: Activity) =>
+    request.put<void>(`/activities/${activity.id}`, activity),
+  delete: (id: string) => request.del<void>(`/activities/${id}`),
+};
+
+const agent = {
+  Activities,
+};
+
+export default agent;

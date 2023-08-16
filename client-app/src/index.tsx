@@ -2,8 +2,10 @@ import React from "react";
 import ReactDOM from "react-dom/client";
 import "semantic-ui-css/semantic.min.css";
 import "./app/layout/styles.css";
-import App from "./app/layout/App";
 import reportWebVitals from "./reportWebVitals";
+import { StoreContext, store } from "./app/stores/store";
+import { router } from "./app/router/Routes";
+import { RouterProvider } from "react-router-dom";
 
 const root = ReactDOM.createRoot(
   document.getElementById("root") as HTMLElement
@@ -11,7 +13,10 @@ const root = ReactDOM.createRoot(
 root.render(
   //removed strict mode for semantic ui to not show error warnings in console
   // <React.StrictMode>
-  <App />
+  <StoreContext.Provider value={store}>
+    <RouterProvider router={router} />
+  </StoreContext.Provider>
+
   // </React.StrictMode>
 );
 

@@ -3,6 +3,7 @@ import { Activity } from "../models/activity";
 import { toast } from "react-toastify";
 import { router } from "../router/Routes";
 import { store } from "../stores/store";
+import { User, UserFormValues } from "../models/user";
 
 const sleep = (delay: number) => {
   return new Promise((resolve) => {
@@ -15,7 +16,12 @@ const tomToken =
   "eyJhbGciOiJIUzUxMiIsInR5cCI6IkpXVCJ9.eyJ1bmlxdWVfbmFtZSI6ImJvYiIsIm5hbWVpZCI6ImJiMDEyNmEwLTk3ZjAtNGU5MC04ZjRlLWUyN2EzOTNkNzYzYiIsImVtYWlsIjoiYm9iQHRlc3QuY29tIiwibmJmIjoxNjkyMDg3Mjg3LCJleHAiOjE2OTI2OTIwODcsImlhdCI6MTY5MjA4NzI4N30.aac3ISM0p6eNoAR8BZQ0R8ojBt80gGdGAnI0Vbf3T7awV4BsTT7ZePXK1dCQwnMxvVLbkMyJAosoClGpMn7Qrg";
 
 axios.defaults.baseURL = "http://localhost:5000/api";
-axios.defaults.headers.common["Authorization"] = `Bearer ${tomToken}`;
+axios.interceptors.request.use((config) => {
+  const token = store.commonStore.token;
+  if (token && config.headers) config.headers.Authorization = `Bearer ${token}`;
+  return config;
+});
+// axios.defaults.headers.common["Authorization"] = `Bearer ${tomToken}`;
 axios.interceptors.response.use(
   async (response) => {
     await sleep(1000);
@@ -78,8 +84,16 @@ const Activities = {
   delete: (id: string) => request.del<void>(`/activities/${id}`),
 };
 
+const Account = {
+  current: () => request.get<User>("/account"),
+  login: (user: UserFormValues) => request.post<User>("/account/login", user),
+  register: (user: UserFormValues) =>
+    request.post<User>("/account/register", user),
+};
+
 const agent = {
   Activities,
+  Account,
 };
 
 export default agent;

@@ -227,6 +227,10 @@ export default class ActivityStore {
       this.loading = false;
     }
   };
+
+  clearSelectedActivity = () => {
+    this.selectedActivity = undefined;
+  };
 }
 
 //v1

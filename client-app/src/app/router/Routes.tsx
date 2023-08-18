@@ -7,6 +7,7 @@ import TestErrors from "../../features/errors/TestError";
 import NotFound from "../../features/errors/NotFound";
 import ServerError from "../../features/errors/ServerError";
 import LoginForm from "../../features/users/LoginForm";
+import ProfilePage from "../../features/profiles/ProfilePage";
 
 export const routes: RouteObject[] = [
   {
@@ -17,6 +18,7 @@ export const routes: RouteObject[] = [
       { path: "activities/:id", element: <ActivityDetails /> },
       { path: "createActivity", element: <ActivityForm key="create" /> }, //i added a key so that the two component are
       { path: "manage/:id", element: <ActivityForm key="manage" /> }, // not the same and the state is not saved on page load
+      { path: "profiles/:username", element: <ProfilePage /> }, // not the same and the state is not saved on page load
       { path: "errors", element: <TestErrors /> },
       { path: "login", element: <LoginForm /> },
       { path: "server-error", element: <ServerError /> },

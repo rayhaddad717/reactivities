@@ -1,5 +1,5 @@
 import { makeAutoObservable, reaction, runInAction } from "mobx";
-import { Photo, Profile } from "../models/profile";
+import { Photo, Profile, UserActivity } from "../models/profile";
 import agent from "../api/agent";
 import { store } from "./store";
 
@@ -11,6 +11,9 @@ export default class ProfileStore {
   followings: Profile[] = [];
   loadingFollowings = false;
   activeTab = 0;
+  userActivities: UserActivity[] = [];
+  loadingActivities = false;
+  eventPredicate = "future";
 
   constructor() {
     makeAutoObservable(this);
@@ -20,16 +23,24 @@ export default class ProfileStore {
         if (activeTab === 3 || activeTab === 4) {
           const predicate = activeTab === 3 ? "followers" : "following";
           this.loadFollowings(predicate);
+        } else if (activeTab === 2) {
+          this.loadActivities(this.eventPredicate);
         } else {
+          this.userActivities = [];
           this.followings = [];
         }
       }
     );
-  }
 
-  setActiveTab = (activeTab: number) => {
-    this.activeTab = activeTab;
-  };
+    reaction(
+      () => this.eventPredicate,
+      () => {
+        if (this.activeTab === 2) {
+          this.loadActivities(this.eventPredicate);
+        }
+      }
+    );
+  }
 
   get isCurrentUser() {
     if (store.userStore.user && this.profile) {
@@ -37,6 +48,14 @@ export default class ProfileStore {
     }
     return false;
   }
+
+  setActiveTab = (activeTab: number) => {
+    this.activeTab = activeTab;
+  };
+
+  setEventPredicate = (eventPredicate: string) => {
+    this.eventPredicate = eventPredicate;
+  };
 
   loadProfile = async (username: string) => {
     this.loadingProfile = true;
@@ -171,6 +190,28 @@ export default class ProfileStore {
     } catch (error) {
       console.error(error);
       runInAction(() => (this.loadingFollowings = false));
+    }
+  };
+
+  loadActivities = async (predicate: string) => {
+    this.loadingActivities = true;
+    try {
+      const events = await agent.Profiles.listEvents(
+        this.profile!.username,
+        predicate
+      );
+      runInAction(() => {
+        this.userActivities = events.map((activity) => ({
+          ...activity,
+          date: new Date(activity.date + "Z"),
+        }));
+        this.loadingActivities = false;
+      });
+    } catch (error) {
+      console.error(error);
+      runInAction(() => {
+        this.loadingActivities = false;
+      });
     }
   };
 }

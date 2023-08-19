@@ -24,11 +24,34 @@ var app = builder.Build();
 
 //our exception handler middleware
 app.UseMiddleware<ExceptionMiddleware>();
+//security
+app.UseXContentTypeOptions();
+app.UseReferrerPolicy(opt => opt.NoReferrer());
+app.UseXXssProtection(opt => opt.EnabledWithBlockMode());
+app.UseXfo(opt => opt.Deny()); //cannot use app insdie iframe
+app.UseCsp(opt => opt
+.BlockAllMixedContent()
+.StyleSources(s => s.Self().CustomSources("https://fonts.googleapis.com")) //css coming from our domain are good
+.FontSources(s => s.Self().CustomSources("https://fonts.gstatic.com", "data:"))
+.FormActions(s => s.Self())
+.FrameAncestors(s => s.Self())
+.ImageSources(s => s.Self().CustomSources("blob:", "https://res.cloudinary.com"))
+.ScriptSources(s => s.Self())
+);
+
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
     app.UseSwaggerUI();
+}
+else
+{
+    app.Use(async (context, next) =>
+    {
+        context.Response.Headers.Add("Strict-Transport-Security", "max-age=31536000"); //one year
+        await next.Invoke();
+    });
 }
 
 //we didn't use https in our application

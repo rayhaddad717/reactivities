@@ -7,11 +7,15 @@ import LoginForm from "../users/LoginForm";
 import RegisterForm from "../users/RegisterForm";
 
 export default observer(function HomePage() {
-  const { userStore, modalStore } = useStore();
+  const {
+    userStore,
+    modalStore,
+    deviceTypeStore: { isTablet },
+  } = useStore();
   return (
     <Segment inverted textAlign="center" vertical className="masthead">
       <Container text>
-        <Header as="h1" inverted>
+        <Header as={isTablet ? "h3" : "h1"} inverted>
           <Image
             size="massive"
             src="/assets/logo.png"

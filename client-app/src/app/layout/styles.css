@@ -20,6 +20,7 @@ body {
 .masthead {
   display: flex;
   align-items: center;
+  justify-content: center;
   background-image: linear-gradient(
     135deg,
     rgb(24, 42, 115) 0%,
@@ -52,4 +53,27 @@ body {
   width: 100%;
   overflow: hidden;
   text-overflow: ellipsis;
+}
+.ui.dimmer > .content {
+  height: 100%;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+}
+.profileContent .ui.menu {
+  flex-wrap: wrap;
+}
+.profileContent .ui.menu .item {
+  border-bottom: 1px solid #eee;
+}
+.server-error {
+  white-space: pre-wrap;
+  width: 100%;
+  display: block;
+  display: flex;
+  flex-direction: column;
+}
+.server-error > code {
+  overflow: hidden;
 }

@@ -3,23 +3,26 @@ import { Tab } from "semantic-ui-react";
 import ProfilePhotos from "./ProfilePhotos";
 import { observer } from "mobx-react-lite";
 import { Profile } from "../../app/models/profile";
+import ProfileFollowings from "./ProfileFollowings";
+import { useStore } from "../../app/stores/store";
 
 interface Props {
   profile: Profile;
 }
 
 export default observer(function ProfileContent({ profile }: Props) {
+  const { profileStore } = useStore();
   const panes = [
     { menuItem: "About", render: () => <Tab.Pane>About Content</Tab.Pane> },
     { menuItem: "Photos", render: () => <ProfilePhotos profile={profile} /> },
     { menuItem: "Event", render: () => <Tab.Pane>Event Content</Tab.Pane> },
     {
       menuItem: "Followers",
-      render: () => <Tab.Pane>Followers Content</Tab.Pane>,
+      render: () => <ProfileFollowings />,
     },
     {
       menuItem: "Following",
-      render: () => <Tab.Pane>Following Content</Tab.Pane>,
+      render: () => <ProfileFollowings />,
     },
   ];
   return (
@@ -27,6 +30,9 @@ export default observer(function ProfileContent({ profile }: Props) {
       menu={{ fluid: true, vertical: true }}
       menuPosition="right"
       panes={panes}
+      onTabChange={(e, data) =>
+        profileStore.setActiveTab(parseInt(data.activeIndex?.toString() || "0"))
+      }
     />
   );
 });

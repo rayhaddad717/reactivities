@@ -1,5 +1,10 @@
 import { makeAutoObservable, reaction, runInAction } from "mobx";
-import { Photo, Profile, UserActivity } from "../models/profile";
+import {
+  Photo,
+  Profile,
+  ProfileFormValues,
+  UserActivity,
+} from "../models/profile";
 import agent from "../api/agent";
 import { store } from "./store";
 
@@ -212,6 +217,27 @@ export default class ProfileStore {
       runInAction(() => {
         this.loadingActivities = false;
       });
+    }
+  };
+
+  updateProfile = async (profileFormValues: ProfileFormValues) => {
+    try {
+      await agent.Profiles.updateProfile(profileFormValues);
+      runInAction(() => {
+        if (
+          this.profile &&
+          this.profile.username === store.userStore.user?.username
+        ) {
+          let { displayName, bio } = profileFormValues;
+          if (bio === null) bio = "";
+          this.profile.displayName = displayName;
+          this.profile.bio = bio;
+          store.userStore.setDisplayName(displayName);
+          store.activityStore.updateProfileDisplayNameAndBio(displayName, bio);
+        }
+      });
+    } catch (error) {
+      console.error(error);
     }
   };
 }

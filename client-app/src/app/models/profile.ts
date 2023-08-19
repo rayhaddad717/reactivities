@@ -35,3 +35,8 @@ export interface UserActivity {
   category: string;
   date: Date;
 }
+
+export interface ProfileFormValues {
+  displayName: string;
+  bio: string | null;
+}

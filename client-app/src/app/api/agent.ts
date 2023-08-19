@@ -4,7 +4,12 @@ import { toast } from "react-toastify";
 import { router } from "../router/Routes";
 import { store } from "../stores/store";
 import { User, UserFormValues } from "../models/user";
-import { Photo, Profile, UserActivity } from "../models/profile";
+import {
+  Photo,
+  Profile,
+  ProfileFormValues,
+  UserActivity,
+} from "../models/profile";
 import { PaginatedResult } from "../models/pagination";
 
 const sleep = (delay: number) => {
@@ -125,6 +130,8 @@ const Profiles = {
     request.get<UserActivity[]>(
       `/profiles/${username}/activities?predicate=${predicate}`
     ),
+  updateProfile: (profileFormValues: ProfileFormValues) =>
+    request.put(`/profiles`, profileFormValues),
 };
 
 const agent = {

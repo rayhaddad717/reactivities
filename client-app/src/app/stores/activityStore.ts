@@ -305,6 +305,18 @@ export default class ActivityStore {
       });
     });
   };
+
+  updateProfileDisplayNameAndBio = (displayName: string, bio: string) => {
+    this.activityRegistry.forEach((activity) => {
+      if (activity.isHost) activity.host!.displayName = displayName;
+      activity.attendees
+        .filter((x) => x.username === store.userStore.user?.username)
+        .forEach((attendee) => {
+          attendee.displayName = displayName;
+          attendee.bio = bio;
+        });
+    });
+  };
 }
 
 //v1

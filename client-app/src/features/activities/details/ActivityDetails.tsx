@@ -15,7 +15,10 @@ import ActivityDetailedSidebar from "./ActivityDetailedSidebar";
 //   openForm: (id: string) => void;
 // }
 export default observer(function ActivityDetails() {
-  const { activityStore } = useStore();
+  const {
+    activityStore,
+    deviceTypeStore: { isTablet },
+  } = useStore();
   const {
     selectedActivity: activity,
     loadingInitial,
@@ -32,12 +35,12 @@ export default observer(function ActivityDetails() {
     return <LoadingComponent content={"Loading"} />;
   return (
     <Grid>
-      <Grid.Column width={10}>
+      <Grid.Column width={isTablet ? 16 : 10}>
         <ActivityDetailedHeader activity={activity} />
         <ActivityDetailedInfo activity={activity} />
         <ActivityDetailedChat activityId={activity.id} />
       </Grid.Column>
-      <Grid.Column width={6}>
+      <Grid.Column width={isTablet ? 16 : 6}>
         <ActivityDetailedSidebar activity={activity!} />
       </Grid.Column>
     </Grid>

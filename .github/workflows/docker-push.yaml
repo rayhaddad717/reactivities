@@ -1,8 +1,8 @@
 name: docker-push
 
 on:
-# manual deployment
-workflow_dispatch:
+  # manual deployment
+  workflow_dispatch:
   # push: #automatic deployment on push
   #   branches:
   #     - 'main'

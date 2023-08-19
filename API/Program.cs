@@ -39,8 +39,12 @@ app.UseCors("CorsPolicy");
 app.UseAuthentication(); //authentication must come before authorization
 app.UseAuthorization();
 
+app.UseDefaultFiles(); //serves index.html
+app.UseStaticFiles();
+
 app.MapControllers();
 app.MapHub<ChatHub>("/chat"); // /chat is the route for signalR
+app.MapFallbackToController("Index", "Fallback");
 
 //using the using keyword means that when we are done with this scope everything inside it
 //will be disposed and cleared from memory

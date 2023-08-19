@@ -45,11 +45,11 @@ namespace Application.Profiles
                 switch (request.Predicate)
                 {
                     case "past":
-                        userActivities = result.Activities.Where(x => x.Activity.Date < DateTime.Now).Select(x => x.Activity).ToList();
+                        userActivities = result.Activities.Where(x => x.Activity.Date < DateTime.UtcNow).Select(x => x.Activity).ToList();
 
                         break;
                     case "future":
-                        userActivities = result.Activities.Where(x => x.Activity.Date > DateTime.Now).Select(x => x.Activity).ToList();
+                        userActivities = result.Activities.Where(x => x.Activity.Date > DateTime.UtcNow).Select(x => x.Activity).ToList();
                         break;
                     case "hosting":
                         userActivities = result.Activities.Where(x => x.IsHost).Select(a => a.Activity).ToList();
@@ -82,11 +82,11 @@ namespace Application.Profiles
                 switch (request.Predicate)
                 {
                     case "past":
-                        query = query.Where(x => x.Date < DateTime.Now);
+                        query = query.Where(x => x.Date < DateTime.UtcNow);
 
                         break;
                     case "future":
-                        query = query.Where(x => x.Date > DateTime.Now); break;
+                        query = query.Where(x => x.Date > DateTime.UtcNow); break;
                     case "hosting":
                         query = query.Where(x => x.Attendees.Any(x => x.IsHost && x.AppUser.UserName == request.Username)); break;
                 }
@@ -117,10 +117,10 @@ namespace Application.Profiles
 
                 query = request.Predicate switch
                 {
-                    "past" => query.Where(x => x.Date <= DateTime.Now),
+                    "past" => query.Where(x => x.Date <= DateTime.UtcNow),
                     "hosting" =>
                          query.Where(x => x.HostUsername == request.Username),
-                    _ => query.Where(x => x.Date >= DateTime.Now)
+                    _ => query.Where(x => x.Date >= DateTime.UtcNow)
                 };
 
                 var activities = await query.ToListAsync(cancellationToken);

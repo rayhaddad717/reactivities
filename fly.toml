@@ -1,0 +1,23 @@
+# fly.toml app configuration file generated for ray-reactivities on 2023-08-19T18:24:06+03:00
+#
+# See https://fly.io/docs/reference/configuration/ for information about how to use this file.
+#
+
+app = "ray-reactivities"
+primary_region = "cdg"
+
+[build]
+  image = "rayhaddad/reactivities:latest"
+
+[env]
+  ASPNETCORE_URLS="http://+:8080"
+  Cloudinary__CloudName="dlwbwfsz3"
+  Cloudinary__ApiKey="676728468918355"
+
+[http_service]
+  internal_port = 8080
+  force_https = true
+  auto_stop_machines = true
+  auto_start_machines = true
+  min_machines_running = 0
+  processes = ["app"]

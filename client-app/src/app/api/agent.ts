@@ -17,12 +17,7 @@ const sleep = (delay: number) => {
     setTimeout(resolve, delay);
   });
 };
-const bobToken =
-  "eyJhbGciOiJIUzUxMiIsInR5cCI6IkpXVCJ9.eyJ1bmlxdWVfbmFtZSI6ImJvYiIsIm5hbWVpZCI6ImJiMDEyNmEwLTk3ZjAtNGU5MC04ZjRlLWUyN2EzOTNkNzYzYiIsImVtYWlsIjoiYm9iQHRlc3QuY29tIiwibmJmIjoxNjkyMDg3MDE3LCJleHAiOjE2OTI2OTE4MTcsImlhdCI6MTY5MjA4NzAxN30.TP1KImNxyBXNwy0upwJ4sHRlAFG2zZUq45nxMMQyVsYTC68uMXBSf0lm_qFS95YlpDxnoy5QTJlJESKHHXdxRQ";
-const tomToken =
-  "eyJhbGciOiJIUzUxMiIsInR5cCI6IkpXVCJ9.eyJ1bmlxdWVfbmFtZSI6ImJvYiIsIm5hbWVpZCI6ImJiMDEyNmEwLTk3ZjAtNGU5MC04ZjRlLWUyN2EzOTNkNzYzYiIsImVtYWlsIjoiYm9iQHRlc3QuY29tIiwibmJmIjoxNjkyMDg3Mjg3LCJleHAiOjE2OTI2OTIwODcsImlhdCI6MTY5MjA4NzI4N30.aac3ISM0p6eNoAR8BZQ0R8ojBt80gGdGAnI0Vbf3T7awV4BsTT7ZePXK1dCQwnMxvVLbkMyJAosoClGpMn7Qrg";
-
-axios.defaults.baseURL = "http://localhost:5000/api";
+axios.defaults.baseURL = process.env.REACT_APP_API_URL;
 axios.interceptors.request.use((config) => {
   const token = store.commonStore.token;
   if (token && config.headers) config.headers.Authorization = `Bearer ${token}`;
@@ -31,7 +26,7 @@ axios.interceptors.request.use((config) => {
 // axios.defaults.headers.common["Authorization"] = `Bearer ${tomToken}`;
 axios.interceptors.response.use(
   async (response) => {
-    await sleep(1000);
+    if (process.env.NODE_ENV === "development") await sleep(1000);
     const pagination = response.headers["pagination"];
     if (pagination) {
       response.data = new PaginatedResult(

@@ -208,7 +208,7 @@ export default class ProfileStore {
       runInAction(() => {
         this.userActivities = events.map((activity) => ({
           ...activity,
-          date: new Date(activity.date + "Z"),
+          date: new Date(activity.date),
         }));
         this.loadingActivities = false;
       });

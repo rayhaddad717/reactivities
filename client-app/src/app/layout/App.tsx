@@ -19,7 +19,6 @@ function App() {
 
   useEffect(() => {
     deviceTypeStore.setIsTablet(isTablet);
-    console.log(isTablet);
   }, [isTablet, deviceTypeStore]);
   useEffect(() => {
     deviceTypeStore.setIsMobile(isMobile);

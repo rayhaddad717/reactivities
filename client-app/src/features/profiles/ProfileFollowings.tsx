@@ -1,5 +1,5 @@
 import { observer } from "mobx-react-lite";
-import React from "react";
+
 import { useStore } from "../../app/stores/store";
 import { Card, Grid, Header, Tab } from "semantic-ui-react";
 import ProfileCard from "./ProfileCard";

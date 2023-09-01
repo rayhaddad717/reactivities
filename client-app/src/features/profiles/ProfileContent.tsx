@@ -1,4 +1,3 @@
-import React from "react";
 import { Tab } from "semantic-ui-react";
 import ProfilePhotos from "./ProfilePhotos";
 import { observer } from "mobx-react-lite";
@@ -32,7 +31,7 @@ export default observer(function ProfileContent({ profile }: Props) {
       menu={{ fluid: true, vertical: true }}
       menuPosition="right"
       panes={panes}
-      onTabChange={(e, data) =>
+      onTabChange={(_, data) =>
         profileStore.setActiveTab(parseInt(data.activeIndex?.toString() || "0"))
       }
     />

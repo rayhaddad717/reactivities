@@ -8,10 +8,26 @@ import { ToastContainer } from "react-toastify";
 import { useStore } from "../stores/store";
 import LoadingComponent from "./LoadingComponent";
 import ModalContainer from "../common/modals/ModalContainer";
+import { useMediaQuery } from "usehooks-ts";
+import Menu from "../../features/home/Menu";
 function App() {
   const location = useLocation();
-  const { commonStore, userStore } = useStore();
+  const { commonStore, userStore, deviceTypeStore, menuStore } = useStore();
+  const { mobileSize, tabletSize } = deviceTypeStore;
+  const isTablet = useMediaQuery(`(max-width:${tabletSize}px)`);
+  const isMobile = useMediaQuery(`(max-width:${mobileSize})`);
 
+  useEffect(() => {
+    deviceTypeStore.setIsTablet(isTablet);
+    console.log(isTablet);
+  }, [isTablet, deviceTypeStore]);
+  useEffect(() => {
+    deviceTypeStore.setIsMobile(isMobile);
+  }, [isMobile, deviceTypeStore]);
+
+  useEffect(() => {
+    menuStore.setState(false);
+  }, [location, menuStore]);
   useEffect(() => {
     if (commonStore.token) {
       userStore.getUser().finally(() => commonStore.setAppLoaded());
@@ -24,6 +40,7 @@ function App() {
     return <LoadingComponent content="Loading app..." />;
   return (
     <>
+      <Menu />
       <ScrollRestoration />
       <ModalContainer />
       <ToastContainer position="bottom-right" hideProgressBar theme="colored" />

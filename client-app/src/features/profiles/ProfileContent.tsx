@@ -12,7 +12,10 @@ interface Props {
 }
 
 export default observer(function ProfileContent({ profile }: Props) {
-  const { profileStore } = useStore();
+  const {
+    profileStore,
+    deviceTypeStore: { isTablet },
+  } = useStore();
   const panes = [
     { menuItem: "About", render: () => <ProfileDetails /> },
     { menuItem: "Photos", render: () => <ProfilePhotos profile={profile} /> },
@@ -28,7 +31,8 @@ export default observer(function ProfileContent({ profile }: Props) {
   ];
   return (
     <Tab
-      menu={{ fluid: true, vertical: true }}
+      className="profileContent"
+      menu={isTablet ? {} : { fluid: true, vertical: true }}
       menuPosition="right"
       panes={panes}
       onTabChange={(_, data) =>

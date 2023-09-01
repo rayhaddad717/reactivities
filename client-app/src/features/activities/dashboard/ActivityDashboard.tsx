@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { Grid, Loader } from "semantic-ui-react";
+import { Grid, Header, Loader } from "semantic-ui-react";
 import ActivityList from "./ActivityList";
 import { useStore } from "../../../app/stores/store";
 import { observer } from "mobx-react-lite";
@@ -13,7 +13,11 @@ import ActivityListItemPlaceholder from "./ActivityListItemPlaceholder";
 //   submitting: boolean;
 // }
 function ActivityDashboard() {
-  const { activityStore } = useStore();
+  const {
+    activityStore,
+    deviceTypeStore: { isTablet },
+  } = useStore();
+
   const { loadActivities, activityRegistry, setPagingParams, pagination } =
     activityStore;
   const [loadingNext, setLoadingNext] = useState(false);
@@ -29,8 +33,11 @@ function ActivityDashboard() {
   }, [loadActivities, activityRegistry.size]);
 
   return (
-    <Grid>
-      <Grid.Column width="10">
+    <Grid
+      centered
+      reversed={isTablet ? "mobile vertically tablet vertically" : ""}
+    >
+      <Grid.Column width={isTablet ? "16" : "10"}>
         {activityStore.loadingInitial && !loadingNext ? (
           <>
             <ActivityListItemPlaceholder />
@@ -51,12 +58,13 @@ function ActivityDashboard() {
           </InfiniteScroll>
         )}
       </Grid.Column>
-      <Grid.Column width="6">
+      <Grid.Column width={isTablet ? "16" : "6"}>
         <ActivityFilters />
       </Grid.Column>
       <Grid.Column width={10}>
         <Loader active={loadingNext} />
       </Grid.Column>
+      {isTablet && <Header as="h2" content="Activities" />}
     </Grid>
   );
 }

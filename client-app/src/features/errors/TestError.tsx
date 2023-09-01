@@ -2,9 +2,14 @@ import { useState } from "react";
 import { Button, Header, Segment } from "semantic-ui-react";
 import axios from "axios";
 import ValidationError from "./ValidationError";
+import { useStore } from "../../app/stores/store";
+import { observer } from "mobx-react-lite";
 
-export default function TestErrors() {
+export default observer(function TestErrors() {
   const [errors, setErrors] = useState<string[] | null>(null);
+  const {
+    deviceTypeStore: { isTablet },
+  } = useStore();
   function handleNotFound() {
     axios.get("/buggy/not-found").catch((err) => console.log(err.response));
   }
@@ -33,7 +38,7 @@ export default function TestErrors() {
     <>
       <Header as="h1" content="Test Error component" />
       <Segment>
-        <Button.Group widths="7">
+        <Button.Group widths="7" vertical={isTablet}>
           <Button onClick={handleNotFound} content="Not Found" basic primary />
           <Button
             onClick={handleBadRequest}
@@ -65,4 +70,4 @@ export default function TestErrors() {
       {errors && <ValidationError errors={errors} />}
     </>
   );
-}
+});

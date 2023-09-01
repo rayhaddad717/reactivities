@@ -9,16 +9,20 @@ import {
 import { Profile } from "../../app/models/profile";
 import { observer } from "mobx-react-lite";
 import FollowButton from "./FollowButton";
+import { useStore } from "../../app/stores/store";
 
 interface Props {
   profile: Profile;
 }
 
 export default observer(function ProfileHeader({ profile }: Props) {
+  const {
+    deviceTypeStore: { isTablet },
+  } = useStore();
   return (
     <Segment>
       <Grid>
-        <Grid.Column width={12}>
+        <Grid.Column width={isTablet ? 16 : 12}>
           <Item.Group>
             <Item>
               <Item.Image
@@ -32,7 +36,7 @@ export default observer(function ProfileHeader({ profile }: Props) {
             </Item>
           </Item.Group>
         </Grid.Column>
-        <Grid.Column width={4}>
+        <Grid.Column width={isTablet ? 16 : 4}>
           <Statistic.Group widths={2}>
             <Statistic label="Followers" value={profile.followersCount} />
             <Statistic label="Following" value={profile.followingCount} />

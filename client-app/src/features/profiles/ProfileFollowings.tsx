@@ -5,7 +5,10 @@ import { Card, Grid, Header, Tab } from "semantic-ui-react";
 import ProfileCard from "./ProfileCard";
 
 export default observer(function ProfileFollowings() {
-  const { profileStore } = useStore();
+  const {
+    profileStore,
+    deviceTypeStore: { isTablet },
+  } = useStore();
   const { profile, followings, loadingFollowings, activeTab } = profileStore;
 
   return (
@@ -23,7 +26,7 @@ export default observer(function ProfileFollowings() {
           />
         </Grid.Column>
         <Grid.Column width={16}>
-          <Card.Group itemsPerRow={4}>
+          <Card.Group itemsPerRow={isTablet ? 2 : 4}>
             {followings.map((profile) => (
               <ProfileCard key={profile.username} profile={profile} />
             ))}

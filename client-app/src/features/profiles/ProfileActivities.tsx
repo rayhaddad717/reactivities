@@ -5,7 +5,10 @@ import { Link } from "react-router-dom";
 import { format } from "date-fns";
 
 export default observer(function ProfileActivities() {
-  const { profileStore } = useStore();
+  const {
+    profileStore,
+    deviceTypeStore: { isTablet },
+  } = useStore();
   const {
     loadingActivities: loadingEvents,
     eventPredicate,
@@ -40,7 +43,7 @@ export default observer(function ProfileActivities() {
         </Grid.Column>
 
         <Grid.Column width={16}>
-          <Card.Group itemsPerRow={4}>
+          <Card.Group itemsPerRow={isTablet ? 2 : 4}>
             {events.map((activity) => (
               <Card key={activity.id}>
                 <Image

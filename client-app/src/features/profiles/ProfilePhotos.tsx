@@ -19,6 +19,7 @@ export default observer(function ProfilePhotos({ profile }: Props) {
       setMainPhoto,
       deletePhoto,
     },
+    deviceTypeStore: { isTablet },
   } = useStore();
   const [addPhotoMode, setAddPhotoMode] = useState(false);
   const [target, setTarget] = useState("");
@@ -62,7 +63,7 @@ export default observer(function ProfilePhotos({ profile }: Props) {
               loading={uploading}
             />
           ) : (
-            <Card.Group itemsPerRow={5}>
+            <Card.Group itemsPerRow={isTablet ? 2 : 5}>
               {profile.photos?.map((photo) => (
                 <Card key={photo.id}>
                   <Image src={photo.url} />

@@ -27,6 +27,7 @@ export default class UserStore {
       router.navigate("/activities");
       store.modalStore.closeModal();
     } catch (error) {
+      console.error(error);
       throw error;
     }
   };
@@ -42,6 +43,7 @@ export default class UserStore {
       router.navigate("/activities");
       store.modalStore.closeModal();
     } catch (error) {
+      console.error(error);
       throw error;
     }
   };

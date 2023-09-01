@@ -228,7 +228,8 @@ export default class ProfileStore {
           this.profile &&
           this.profile.username === store.userStore.user?.username
         ) {
-          let { displayName, bio } = profileFormValues;
+          let { bio } = profileFormValues;
+          const { displayName } = profileFormValues;
           if (bio === null) bio = "";
           this.profile.displayName = displayName;
           this.profile.bio = bio;

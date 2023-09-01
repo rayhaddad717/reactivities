@@ -68,7 +68,7 @@ axios.interceptors.response.use(
           )
         ) {
           store.userStore.logout();
-          toast.error("Session expired - please login again");
+          return toast.error("Session expired - please login again");
         }
         toast.error("unauthorized");
         break;

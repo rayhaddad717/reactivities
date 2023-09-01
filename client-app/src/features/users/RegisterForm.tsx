@@ -44,7 +44,7 @@ export default observer(function RegisterForm() {
           <MyTextInput placeholder="Password" name="password" type="password" />
           <ErrorMessage
             name="error"
-            render={() => <ValidationError errors={errors.error} />}
+            render={() => <ValidationError errors={[errors.error!]} />}
           />
           <Button
             loading={isSubmitting}

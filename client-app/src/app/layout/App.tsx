@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import { useEffect } from "react";
 import { Container } from "semantic-ui-react";
 import NavBar from "./NavBar";
 import { observer } from "mobx-react-lite";
@@ -9,7 +9,6 @@ import { useStore } from "../stores/store";
 import LoadingComponent from "./LoadingComponent";
 import ModalContainer from "../common/modals/ModalContainer";
 import { useMediaQuery } from "usehooks-ts";
-import DeviceTypeStore from "../stores/deviceTypeStore";
 import Menu from "../../features/home/Menu";
 function App() {
   const location = useLocation();

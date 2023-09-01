@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { Grid, Header, Loader } from "semantic-ui-react";
 import ActivityList from "./ActivityList";
 import { useStore } from "../../../app/stores/store";
@@ -15,7 +15,7 @@ import ActivityListItemPlaceholder from "./ActivityListItemPlaceholder";
 function ActivityDashboard() {
   const {
     activityStore,
-    deviceTypeStore: { isMobile, isTablet },
+    deviceTypeStore: { isTablet },
   } = useStore();
 
   const { loadActivities, activityRegistry, setPagingParams, pagination } =

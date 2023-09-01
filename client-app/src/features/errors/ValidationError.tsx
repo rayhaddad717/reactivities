@@ -1,7 +1,6 @@
-import React from "react";
 import { Message } from "semantic-ui-react";
 interface Props {
-  errors: any;
+  errors: string[];
 }
 
 export default function ValidationError({ errors }: Props) {

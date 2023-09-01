@@ -31,12 +31,12 @@ app.UseXXssProtection(opt => opt.EnabledWithBlockMode());
 app.UseXfo(opt => opt.Deny()); //cannot use app insdie iframe
 app.UseCsp(opt => opt
 .BlockAllMixedContent()
-.StyleSources(s => s.Self().CustomSources("https://fonts.googleapis.com")) //css coming from our domain are good
+.StyleSources(s => s.Self().CustomSources("https://fonts.googleapis.com", "sha256-VdJLYZrBOhBJj2L4/+iZupDWpR1sppzSbgJzXdO/Oss=")) //css coming from our domain are good
 .FontSources(s => s.Self().CustomSources("https://fonts.gstatic.com", "data:"))
 .FormActions(s => s.Self())
 .FrameAncestors(s => s.Self())
-.ImageSources(s => s.Self().CustomSources("blob:", "https://res.cloudinary.com"))
-.ScriptSources(s => s.Self())
+.ImageSources(s => s.Self().CustomSources("blob:", "data:", "https://res.cloudinary.com", "https://platform-lookaside.fbsbx.com"))
+.ScriptSources(s => s.Self().CustomSources("https://connect.facebook.net"))
 );
 
 // Configure the HTTP request pipeline.

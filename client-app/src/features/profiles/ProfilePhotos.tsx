@@ -1,5 +1,5 @@
 import { observer } from "mobx-react-lite";
-import React, { SyntheticEvent, useState } from "react";
+import { SyntheticEvent, useState } from "react";
 import { Card, Header, Tab, Image, Grid, Button } from "semantic-ui-react";
 import { Photo, Profile } from "../../app/models/profile";
 import { useStore } from "../../app/stores/store";
@@ -19,6 +19,7 @@ export default observer(function ProfilePhotos({ profile }: Props) {
       setMainPhoto,
       deletePhoto,
     },
+    deviceTypeStore: { isTablet },
   } = useStore();
   const [addPhotoMode, setAddPhotoMode] = useState(false);
   const [target, setTarget] = useState("");
@@ -62,7 +63,7 @@ export default observer(function ProfilePhotos({ profile }: Props) {
               loading={uploading}
             />
           ) : (
-            <Card.Group itemsPerRow={5}>
+            <Card.Group itemsPerRow={isTablet ? 2 : 5}>
               {profile.photos?.map((photo) => (
                 <Card key={photo.id}>
                   <Image src={photo.url} />

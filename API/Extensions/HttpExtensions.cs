@@ -20,7 +20,8 @@ namespace API.Extensions
             };
             response.Headers.Add("Pagination", JsonSerializer.Serialize(paginationHeader));
             //since it is a custom header we need to expose our new header for the client to access
-            response.Headers.Add("Access-Control-Expose-Headers", "Pagination");
+            //exposing it in applicationServiceExtensions
+            // response.Headers.Add("Access-Control-Expose-Headers", "Pagination");
         }
     }
 }

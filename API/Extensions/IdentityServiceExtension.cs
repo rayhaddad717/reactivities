@@ -29,7 +29,9 @@ namespace API.Extensions
                     ValidateIssuerSigningKey = true, //to only accept signed jwts
                     IssuerSigningKey = key,
                     ValidateIssuer = false,
-                    ValidateAudience = false
+                    ValidateAudience = false,
+                    ValidateLifetime = true,
+                    ClockSkew = TimeSpan.Zero
                 };
 
                 //for signalR

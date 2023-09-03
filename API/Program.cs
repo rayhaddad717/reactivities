@@ -31,7 +31,7 @@ app.UseXXssProtection(opt => opt.EnabledWithBlockMode());
 app.UseXfo(opt => opt.Deny()); //cannot use app insdie iframe
 app.UseCsp(opt => opt
 .BlockAllMixedContent()
-.StyleSources(s => s.Self().CustomSources("https://fonts.googleapis.com", "sha256-VdJLYZrBOhBJj2L4/+iZupDWpR1sppzSbgJzXdO/Oss=")) //css coming from our domain are good
+.StyleSources(s => s.Self().CustomSources("https://fonts.googleapis.com", "sha256-DpOoqibK/BsYhobWHnU38Pyzt5SjDZuR/mFsAiVN7kk=")) //css coming from our domain are good
 .FontSources(s => s.Self().CustomSources("https://fonts.gstatic.com", "data:"))
 .FormActions(s => s.Self())
 .FrameAncestors(s => s.Self())

@@ -3,7 +3,6 @@ import { User, UserFormValues } from "../models/user";
 import agent from "../api/agent";
 import { store } from "./store";
 import { router } from "../router/Routes";
-import { isAxiosError } from "axios";
 
 export default class UserStore {
   user: User | null = null;
@@ -35,12 +34,13 @@ export default class UserStore {
 
   register = async (creds: UserFormValues) => {
     try {
-      agent.Account.register(creds);
+      await agent.Account.register(creds);
 
       router.navigate(`/account/registerSuccess?email=${creds.email}`);
       store.modalStore.closeModal();
     } catch (error) {
-      if (isAxiosError(error) && error?.response?.status === 400) throw error;
+      if (Array.isArray(error)) throw error;
+      // if (typeof error == "object" isAxiosError(error) && error?.response?.status === 400) throw error;
       console.error(error);
       store.modalStore.closeModal();
     }

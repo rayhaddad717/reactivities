@@ -68,9 +68,8 @@ axios.interceptors.response.use(
           )
         ) {
           store.userStore.logout();
-          toast.error("Session expired - please login again");
+          return toast.error("Session expired - please login again");
         }
-        toast.error("unauthorized");
         break;
       case 403:
         toast.error("forbidden");
@@ -120,6 +119,13 @@ const Account = {
   fbLogin: (accessToken: string) =>
     request.post<User>(`/account/fbLogin?accessToken=${accessToken}`, {}),
   refreshToken: () => request.post<User>("/account/refreshToken", {}),
+  verifyEmail: (token: string, email: string) =>
+    request.post<void>(
+      `/account/verifyEmail?token=${token}&email=${email}`,
+      {}
+    ),
+  resendEmailConfirm: (email: string) =>
+    request.get<void>(`/account/resendEmailConfirmationLink?&email=${email}`),
 };
 
 const Profiles = {

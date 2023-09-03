@@ -14,6 +14,7 @@ primary_region = "cdg"
   Cloudinary__CloudName="dlwbwfsz3"
   Cloudinary__ApiKey="676728468918355"
   Facebook__AppId="130758266768044"
+  Sendgrid__User="rayghaddad"
 
 [http_service]
   internal_port = 8080

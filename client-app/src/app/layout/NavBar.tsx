@@ -16,7 +16,7 @@ import { observer } from "mobx-react-lite";
 // }
 export default observer(function NavBar() {
   const {
-    userStore: { user, logout },
+    userStore: { user, logout, isLoggedIn },
     deviceTypeStore: { isTablet },
     menuStore,
   } = useStore();
@@ -34,7 +34,7 @@ export default observer(function NavBar() {
           />
           Reactivities
         </Menu.Item>
-        {!isTablet && (
+        {!isTablet && isLoggedIn && (
           <>
             <Menu.Item as={NavLink} to="/activities" name="Activities" />
             <Menu.Item as={NavLink} to="/errors" name="Errors" />
@@ -67,7 +67,7 @@ export default observer(function NavBar() {
             </Menu.Item>
           </>
         )}
-        {isTablet && (
+        {isTablet && isLoggedIn && (
           <Menu.Item position="right" onClick={() => menuStore.setState(true)}>
             <Icon name="bars" size="big" inverted />
           </Menu.Item>
